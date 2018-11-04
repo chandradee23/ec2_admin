@@ -1,0 +1,1 @@
+pyinstaller --onefile --windowed --icon=app.ico ec2.py
