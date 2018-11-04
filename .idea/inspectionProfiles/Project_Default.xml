@@ -5,6 +5,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="PySide2.QtWidgets.clicked.*" />
+          <option value="PySide2.QtWidgets.currentTextChanged.*" />
         </list>
       </option>
     </inspection_tool>

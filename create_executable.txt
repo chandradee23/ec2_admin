@@ -1,1 +1,3 @@
-pyinstaller --onefile  --windowed --icon=app.ico --additional-hooks-dir=. ec2.py
+#pyinstaller --onefile  --windowed --icon=app.ico --additional-hooks-dir=. ec2.py
+
+pyinstaller ec2.spec

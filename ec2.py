@@ -8,16 +8,13 @@ Created on Thu Nov  1 23:33:56 2018
 
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
-from PySide2.QtCore import *
+#from PySide2.QtCore import *
 import boto3
 import time
-import os
+#import os
 import sys
 from ec2_ids import IdsForm, loadIDS
 from functions import *
-
-
-scriptDir = os.path.dirname(sys.executable)
 
 class mainWindow(QMainWindow):
     def __init__(self, parent):
@@ -25,8 +22,7 @@ class mainWindow(QMainWindow):
 
         self.setMinimumWidth(400)
         self.setWindowTitle("AWS EC2 Manager Admin")
-        self.setWindowIcon(QIcon(scriptDir + os.path.sep + 'ec2.png'))
-
+        self.setWindowIcon(QIcon(resource_path('img/ec2.png')))
         self.setCentralWidget(mainWidget(self))
 
 

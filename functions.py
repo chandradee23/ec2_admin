@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 
 config_filename = os.path.join(os.path.expanduser('~')) + "/.config_aws_ec2.cfg"
 
@@ -19,3 +20,13 @@ def loadIDS():
 
 def tagsToDict(tags):
     return({x["Key"]: x["Value"] for x in tags})
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    path = os.path.join(base_path, relative_path)
+    return(path)
