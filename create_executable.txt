@@ -1,3 +1,2 @@
-#pyinstaller --onefile  --windowed --icon=app.ico --additional-hooks-dir=. ec2.py
-
+pyi-makespec  --windowed --icon=app.ico --onefile --additional-hooks-dir=. --add-data "img\ec2.png:img" ec2.py
 pyinstaller ec2.spec
