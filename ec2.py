@@ -22,7 +22,7 @@ class mainWindow(QMainWindow):
 
         self.setMinimumWidth(400)
         self.setWindowTitle("AWS EC2 Manager Admin")
-        self.setWindowIcon(QIcon(resource_path('img/ec2.png')))
+        self.setWindowIcon(QIcon(resource_path(os.path.join('img','ec2.png') )))
         self.setCentralWidget(mainWidget(self))
 
 
@@ -183,6 +183,7 @@ class mainWidget(QWidget):
 
     def fn_status(self):
         try:
+            self.i.reload()
             state = self.i.state["Name"]
             self.status.setText(state)
             self.instance_type.setCurrentText(self.i.instance_type)
