@@ -228,16 +228,13 @@ class mainWidget(QWidget):
         self.fn_status()
 
     def launch_kodex(self):
-        QDesktopServices.openUrl(
-            QUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"]))
+        QDesktopServices.openUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"])
 
     def launch_rstudio(self):
-        QDesktopServices.openUrl(
-            QUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":8080"))
+        QDesktopServices.openUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":8080")
 
     def launch_jupyter(self):
-        QDesktopServices.openUrl(
-            QUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":3000"))
+        QDesktopServices.openUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":3000")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
