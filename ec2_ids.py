@@ -6,7 +6,7 @@ Created on Thu Nov  1 23:33:56 2018
 @author: dfischer
 """
 
-from PyQt5.QtWidgets import *
+from PySide2.QtWidgets import *
 import sys
 from functions import *
 

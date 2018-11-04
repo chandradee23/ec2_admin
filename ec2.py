@@ -6,9 +6,9 @@ Created on Thu Nov  1 23:33:56 2018
 @author: dfischer
 """
 
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from PySide2.QtWidgets import *
+from PySide2.QtGui import *
+from PySide2.QtCore import *
 import boto3
 import time
 import os
@@ -162,7 +162,7 @@ class mainWidget(QWidget):
         for i in self.instances:
             tags = tagsToDict(i.tags)
             if self.active.checkState() == 0 or i.state["Name"] == "running":
-                self.instance_name.addItem(tags["Name"], QVariant(i))
+                self.instance_name.addItem(tags["Name"], i)
 
     def fn_set_instance(self):
         self.i = self.instance_name.currentData()
