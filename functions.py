@@ -10,10 +10,12 @@ def loadIDS():
         keys = {
             "user" : re.sub("\n|\r", "", reader.readline()),
             "password" : re.sub("\n|\r", "", reader.readline()),
-            "region" : re.sub("\n|\r", "", reader.readline()),
-            "id_ec2" : re.sub("\n|\r", "", reader.readline())
+            "region" : re.sub("\n|\r", "", reader.readline())
         }
         reader.close()
         return(keys)
     except:
         return(None)
+
+def tagsToDict(tags):
+    return({x["Key"]: x["Value"] for x in tags})

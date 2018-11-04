@@ -7,13 +7,9 @@ Created on Thu Nov  1 23:33:56 2018
 """
 
 from PyQt5.QtWidgets import *
-import re
-import os
 import sys
 from functions import *
 
-scriptDir = os.path.dirname(sys.executable)
-config_filename = os.path.join(os.path.expanduser('~')) + "/.config_aws_ec2.cfg"
 
 class IdsForm(QDialog):
     def __init__(self,parent):
@@ -23,7 +19,6 @@ class IdsForm(QDialog):
         self.setWindowTitle("AWS API Manager")
         ids = loadIDS()
 
-        self.id = QLineEdit(ids["id_ec2"])
         self.user = QLineEdit(ids["user"])
         self.password = QLineEdit(ids["password"])
         self.region = QLineEdit(ids["region"])
@@ -31,15 +26,13 @@ class IdsForm(QDialog):
         self.mainLayout = QVBoxLayout()
 
         self.keys = QGridLayout()
-        self.keys.addWidget(QLabel("Instance ID"),0,0)
-        self.keys.addWidget(QLabel("API User"), 1, 0)
-        self.keys.addWidget(QLabel("API Password"), 2, 0)
-        self.keys.addWidget(QLabel("Region"), 3, 0)
+        self.keys.addWidget(QLabel("API User"), 0, 0)
+        self.keys.addWidget(QLabel("API Password"), 1, 0)
+        self.keys.addWidget(QLabel("Region"), 2, 0)
 
-        self.keys.addWidget(self.id,0,1)
-        self.keys.addWidget(self.user,1,1)
-        self.keys.addWidget(self.password,2,1)
-        self.keys.addWidget(self.region,3,1)
+        self.keys.addWidget(self.user,0,1)
+        self.keys.addWidget(self.password,1,1)
+        self.keys.addWidget(self.region,2,1)
 
         self.save = QPushButton("Save")
         self.save.clicked.connect(self.save_to_file)
@@ -54,7 +47,6 @@ class IdsForm(QDialog):
             file.write(self.user.text()+"\n")
             file.write(self.password.text()+"\n")
             file.write(self.region.text()+"\n")
-            file.write(self.id.text()+"\n")
         self.close()
 
 if __name__ == '__main__':

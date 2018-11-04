@@ -16,16 +16,15 @@ import sys
 from ec2_ids import IdsForm, loadIDS
 from functions import *
 
-scriptDir = os.path.dirname(sys.executable)
-config_filename = os.path.join(os.path.expanduser('~')) + "/.config_aws_ec2.cfg"
 
+scriptDir = os.path.dirname(sys.executable)
 
 class mainWindow(QMainWindow):
     def __init__(self, parent):
         super(mainWindow, self).__init__(parent)
 
         self.setMinimumWidth(400)
-        self.setWindowTitle("AWS EC2 Manager")
+        self.setWindowTitle("AWS EC2 Manager Admin")
         self.setWindowIcon(QIcon(scriptDir + os.path.sep + 'ec2.png'))
 
         self.setCentralWidget(mainWidget(self))
@@ -35,13 +34,24 @@ class mainWidget(QWidget):
     def __init__(self, parent):
         super(mainWidget, self).__init__(parent)
 
+        self.getKeys()
+
+        self.hbox_instance = QHBoxLayout()
+        self.instance_name = QComboBox()
+        self.hbox_instance.addWidget(self.instance_name)
+        self.active = QCheckBox("Activas")
+        self.combo_instances()
+        self.active.clicked.connect(self.combo_instances)
+        self.hbox_instance.addWidget(self.active)
+        self.instance_name.currentTextChanged.connect(self.fn_set_instance)
+
         # Acciones
         self.hbox_manipulate = QHBoxLayout()
         self.hbox_manipulate.addWidget(QLabel("Actions:"))
 
         self.on = QPushButton("Turn On")
         self.off = QPushButton("Turn Off")
-        self.saveid = QPushButton("Set IDs")
+        self.saveid = QPushButton("Set API")
 
         self.grid_manipulate = QGridLayout()
         self.grid_manipulate.addWidget(self.on, 0, 0)
@@ -90,10 +100,10 @@ class mainWidget(QWidget):
         self.hbox_attr.addWidget(QLabel("Instance Information:"))
 
         self.grid_attr = QGridLayout()
-        self.grid_attr.addWidget(QLabel('Name'), 0, 0)
-        self.name = QLineEdit()
-        self.name.setReadOnly(True)
-        self.grid_attr.addWidget(self.name, 0, 1)
+        self.grid_attr.addWidget(QLabel('ID'), 0, 0)
+        self.ec2_id = QLineEdit()
+        self.ec2_id.setReadOnly(True)
+        self.grid_attr.addWidget(self.ec2_id, 0, 1)
 
         self.grid_attr.addWidget(QLabel('IP'), 1, 0)
         self.ip = QLineEdit()
@@ -131,6 +141,7 @@ class mainWidget(QWidget):
         self.refresh.clicked.connect(self.fn_status)
 
         self.vbox = QVBoxLayout()
+        self.vbox.addLayout(self.hbox_instance)
         self.vbox.addLayout(self.hbox_manipulate)
         self.vbox.addLayout(self.grid_manipulate)
         self.vbox.addLayout(self.hbox_attr)
@@ -140,10 +151,22 @@ class mainWidget(QWidget):
         self.vbox.addLayout(self.hbox_url)
 
         self.setLayout(self.vbox)
-        self.getKeys()
-        # self.fn_status()
+        self.fn_set_instance()
+        self.fn_status()
 
         self.show()
+
+    def combo_instances(self):
+        self.instances = [x for x in self.ec2.instances.all()]
+        self.instance_name.clear()
+        for i in self.instances:
+            tags = tagsToDict(i.tags)
+            if self.active.checkState() == 0 or i.state["Name"] == "running":
+                self.instance_name.addItem(tags["Name"], QVariant(i))
+
+    def fn_set_instance(self):
+        self.i = self.instance_name.currentData()
+        self.fn_status()
 
     def getKeys(self):
         self.keys = loadIDS()
@@ -151,7 +174,6 @@ class mainWidget(QWidget):
         self.user = self.keys["user"]
         self.password = self.keys["password"]
         self.region = self.keys["region"]
-        self.id_ec2 = self.keys["id_ec2"]
 
         try:
             self.session = boto3.Session(
@@ -160,8 +182,6 @@ class mainWidget(QWidget):
                 region_name=self.region
             )
             self.ec2 = self.session.resource("ec2")
-            self.i = self.ec2.Instance(id=self.id_ec2)
-            self.fn_status()
         except:
             pass
 
@@ -170,11 +190,11 @@ class mainWidget(QWidget):
             state = self.i.state["Name"]
             self.status.setText(state)
             self.instance_type.setCurrentText(self.i.instance_type)
-            tags = {x["Key"]: x["Value"] for x in self.i.tags}
+            tags = tagsToDict(self.i.tags)
             # print(tags)
-            self.name.setText(tags["Name"])
+            self.ec2_id.setText(self.i.id)
         except:
-            self.name.setText("Invalid ID")
+            self.ec2_id.setText("Invalid ID")
         try:
             self.ip.setText(self.i.network_interfaces_attribute[0]["Association"]["PublicIp"])
             self.dns.setText(self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"])
@@ -218,50 +238,6 @@ class mainWidget(QWidget):
     def launch_jupyter(self):
         QDesktopServices.openUrl(
             QUrl("http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":3000"))
-
-
-class IdsForm(QDialog):
-    def __init__(self, parent):
-        super(IdsForm, self).__init__(parent)
-        self.parent = parent
-        self.setMinimumWidth(400)
-        self.setWindowTitle("AWS API Manager")
-        ids = loadIDS()
-
-        self.id = QLineEdit(ids["id_ec2"])
-        self.user = QLineEdit(ids["user"])
-        self.password = QLineEdit(ids["password"])
-        self.region = QLineEdit(ids["region"])
-
-        self.mainLayout = QVBoxLayout()
-
-        self.keys = QGridLayout()
-        self.keys.addWidget(QLabel("Instance ID"), 0, 0)
-        self.keys.addWidget(QLabel("API User"), 1, 0)
-        self.keys.addWidget(QLabel("API Password"), 2, 0)
-        self.keys.addWidget(QLabel("Region"), 3, 0)
-
-        self.keys.addWidget(self.id, 0, 1)
-        self.keys.addWidget(self.user, 1, 1)
-        self.keys.addWidget(self.password, 2, 1)
-        self.keys.addWidget(self.region, 3, 1)
-
-        self.save = QPushButton("Save")
-        self.save.clicked.connect(self.save_to_file)
-
-        self.mainLayout.addLayout(self.keys)
-        self.mainLayout.addWidget(self.save)
-
-        self.setLayout(self.mainLayout)
-
-    def save_to_file(self):
-        with open(config_filename, 'w+') as file:
-            file.write(self.user.text() + "\n")
-            file.write(self.password.text() + "\n")
-            file.write(self.region.text() + "\n")
-            file.write(self.id.text() + "\n")
-        self.close()
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
