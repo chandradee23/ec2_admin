@@ -1,7 +1,7 @@
 Linux:
-pyi-makespec  --windowed --icon=app.ico --onefile --additional-hooks-dir=. --add-data "img/ec2.png:img" ec2_manager.py
+pyi-makespec  --windowed --icon=ec2.ico --onefile --additional-hooks-dir=. --add-data "img/ec2.png:img" ec2_manager.py
 Windows:
-pyi-makespec-script.py  --windowed --icon=app.ico --onefile --additional-hooks-dir=. --add-data "img\ec2.png;img" ec2_manager.py
+pyi-makespec-script.py  --windowed --icon=ec2.ico --onefile --additional-hooks-dir=. --add-data "img\ec2.png;img" ec2_manager.py
 
 Compilar
 pyinstaller ec2_manager.spec
