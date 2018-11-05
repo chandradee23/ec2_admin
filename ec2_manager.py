@@ -32,6 +32,7 @@ class mainWidget(QWidget):
 
         self.getKeys()
 
+        # Instancias
         self.hbox_instance = QHBoxLayout()
         self.instance_name = QComboBox()
         self.hbox_instance.addWidget(self.instance_name)
@@ -47,21 +48,21 @@ class mainWidget(QWidget):
 
         self.on = QPushButton("Turn On")
         self.off = QPushButton("Turn Off")
-        self.saveid = QPushButton("Set API")
+        self.set_api = QPushButton("Set API")
 
         self.grid_manipulate = QGridLayout()
         self.grid_manipulate.addWidget(self.on, 0, 0)
         self.grid_manipulate.addWidget(self.off, 0, 1)
-        self.grid_manipulate.addWidget(self.saveid, 0, 2)
+        self.grid_manipulate.addWidget(self.set_api, 0, 2)
 
-        self.on.clicked.connect(self.fn_prender)
-        self.off.clicked.connect(self.fn_apagar)
-        self.saveid.clicked.connect(self.fn_saveid)
+        self.on.clicked.connect(self.fn_on)
+        self.off.clicked.connect(self.fn_off)
+        self.set_api.clicked.connect(self.fn_set_api)
 
         # Tamaño
         self.grid_manipulate.addWidget(QLabel('Instance Size:'), 1, 0)
-        self.instance_type = QComboBox()
-        self.instance_type.addItems(["t2.nano",
+        self.instance_size = QComboBox()
+        self.instance_size.addItems(["t2.nano",
                                      "t2.micro",
                                      "t2.small",
                                      "t2.medium",
@@ -86,10 +87,10 @@ class mainWidget(QWidget):
                                      "r4.8xlarge",
                                      "r4.16xlarge"
                                      ])
-        self.grid_manipulate.addWidget(self.instance_type, 1, 1)
+        self.grid_manipulate.addWidget(self.instance_size, 1, 1)
         self.set_type = QPushButton("Set Size")
         self.grid_manipulate.addWidget(self.set_type, 1, 2)
-        self.set_type.clicked.connect(self.fn_set_type)
+        self.set_type.clicked.connect(self.fn_set_size)
 
         # Atributos
         self.hbox_attr = QHBoxLayout()
@@ -154,12 +155,16 @@ class mainWidget(QWidget):
 
     def combo_instances(self):
         try:
-            self.instances = [x for x in self.ec2.instances.all()]
+            if self.active.checkState() == 0:
+                self.instances = self.ec2.instances.all()
+            else:
+                self.instances = self.ec2.instances.filter( Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
+
+            self.instances = [x for x in self.instances]
             self.instance_name.clear()
             for i in self.instances:
                 tags = tagsToDict(i.tags)
-                if self.active.checkState() == 0 or i.state["Name"] == "running":
-                    self.instance_name.addItem(tags["Name"], i)
+                self.instance_name.addItem(tags["Name"], i)
         except:
             pass
 
@@ -189,7 +194,7 @@ class mainWidget(QWidget):
             self.i.reload()
             state = self.i.state["Name"]
             self.status.setText(state)
-            self.instance_type.setCurrentText(self.i.instance_type)
+            self.instance_size.setCurrentText(self.i.instance_type)
             tags = tagsToDict(self.i.tags)
             # print(tags)
             self.ec2_id.setText(self.i.id)
@@ -202,7 +207,7 @@ class mainWidget(QWidget):
             self.ip.setText("")
             self.dns.setText("")
 
-    def fn_prender(self):
+    def fn_on(self):
         self.i.start()
         while self.i.state["Name"] != "running":
             print(".", end="")
@@ -211,21 +216,21 @@ class mainWidget(QWidget):
             self.i.reload()
         self.fn_status()
 
-    def fn_apagar(self):
+    def fn_off(self):
         self.i.stop()
         time.sleep(2)
         self.i.reload()
         self.status.setText(self.i.state["Name"])
 
-    def fn_saveid(self):
+    def fn_set_api(self):
         win = IdsForm(self)
         win.exec()
         self.getKeys()
         self.combo_instances()
 
-    def fn_set_type(self):
+    def fn_set_size(self):
         if (self.i.state["Name"] == "stopped"):
-            self.i.modify_attribute(Attribute='instanceType', Value=self.instance_type.currentText())
+            self.i.modify_attribute(Attribute='instanceType', Value=self.instance_size.currentText())
         self.fn_status()
 
     def launch_kodex(self):
@@ -241,5 +246,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = mainWindow(None)
     window.show()
-    # sys.exit(app.exec_())
-    app.exec_()
+    sys.exit(app.exec_())
+    #app.exec_()

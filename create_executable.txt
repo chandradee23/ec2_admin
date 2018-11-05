@@ -1,5 +1,5 @@
 Linux:
-pyi-makespec  --windowed --icon=app.ico --onefile --additional-hooks-dir=. --add-data "img\ec2.png:img" ec2_manager.py
+pyi-makespec  --windowed --icon=app.ico --onefile --additional-hooks-dir=. --add-data "img/ec2.png:img" ec2_manager.py
 Windows:
 pyi-makespec-script.py  --windowed --icon=app.ico --onefile --additional-hooks-dir=. --add-data "img\ec2.png;img" ec2_manager.py
 

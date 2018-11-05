@@ -53,8 +53,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = IdsForm(None)
     window.show()
-# sys.exit(app.exec_())
-    app.exec_()
+    sys.exit(app.exec_())
+    #app.exec_()
 
 
 
