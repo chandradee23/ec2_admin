@@ -14,9 +14,14 @@ def loadIDS():
             "region" : re.sub("\n|\r", "", reader.readline())
         }
         reader.close()
-        return(keys)
     except:
-        return(None)
+        keys = {
+            "user":"",
+            "password":"",
+            "region":""
+        }
+
+    return(keys)
 
 def tagsToDict(tags):
     return({x["Key"]: x["Value"] for x in tags})

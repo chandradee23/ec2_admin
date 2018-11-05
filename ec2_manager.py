@@ -153,25 +153,28 @@ class mainWidget(QWidget):
         self.show()
 
     def combo_instances(self):
-        self.instances = [x for x in self.ec2.instances.all()]
-        self.instance_name.clear()
-        for i in self.instances:
-            tags = tagsToDict(i.tags)
-            if self.active.checkState() == 0 or i.state["Name"] == "running":
-                self.instance_name.addItem(tags["Name"], i)
+        try:
+            self.instances = [x for x in self.ec2.instances.all()]
+            self.instance_name.clear()
+            for i in self.instances:
+                tags = tagsToDict(i.tags)
+                if self.active.checkState() == 0 or i.state["Name"] == "running":
+                    self.instance_name.addItem(tags["Name"], i)
+        except:
+            pass
 
     def fn_set_instance(self):
         self.i = self.instance_name.currentData()
         self.fn_status()
 
     def getKeys(self):
-        self.keys = loadIDS()
-
-        self.user = self.keys["user"]
-        self.password = self.keys["password"]
-        self.region = self.keys["region"]
-
         try:
+            self.keys = loadIDS()
+
+            self.user = self.keys["user"]
+            self.password = self.keys["password"]
+            self.region = self.keys["region"]
+
             self.session = boto3.Session(
                 aws_access_key_id=self.user,
                 aws_secret_access_key=self.password,
@@ -218,6 +221,7 @@ class mainWidget(QWidget):
         win = IdsForm(self)
         win.exec()
         self.getKeys()
+        self.combo_instances()
 
     def fn_set_type(self):
         if (self.i.state["Name"] == "stopped"):
