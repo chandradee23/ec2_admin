@@ -174,6 +174,9 @@ class mainWidget(QWidget):
 
     def getKeys(self):
         try:
+            self.session = boto3.Session()
+
+        except:
             self.keys = loadIDS()
 
             self.user = self.keys["user"]
@@ -185,9 +188,8 @@ class mainWidget(QWidget):
                 aws_secret_access_key=self.password,
                 region_name=self.region
             )
-            self.ec2 = self.session.resource("ec2")
-        except:
-            pass
+
+        self.ec2 = self.session.resource("ec2")
 
     def fn_status(self):
         try:
