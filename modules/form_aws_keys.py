@@ -10,6 +10,7 @@ from PySide2.QtWidgets import *
 from modules.functions import *
 from modules import SettingsManager as sm
 import os
+import re
 
 home = os.path.expanduser("~")
 
@@ -51,8 +52,8 @@ class IdsForm(QDialog):
 
     def save_to_file(self):
         #self.settings.setParam('ec2_id',self.ec2_id.text())
-        self.settings.setParam('aws_access_key_id', self.api_access.text())
-        self.settings.setParam('aws_secret_access_key', self.api_secret.text())
+        self.settings.setParam('aws_access_key_id', re.sub("\n$","", self.api_access.text()) )
+        self.settings.setParam('aws_secret_access_key', re.sub("\n$","",self.api_secret.text()) )
         self.settings.setParam('region', self.region.text())
         self.settings.writeParams()
         #try:
