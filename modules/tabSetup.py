@@ -30,7 +30,7 @@ class tabSetup(QWidget):
         useradd = QPushButton("Create User on EC2")
         useradd.clicked.connect(self.fn_useradd)
 
-        pwd = QPushButton('Set Password on EC2')
+        pwd = QPushButton('Set Password for user')
         pwd.clicked.connect(self.fn_set_pwd)
 
         add_bucket = QPushButton("Mount Bucket to EC2")

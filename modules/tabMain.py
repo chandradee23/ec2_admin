@@ -171,7 +171,7 @@ class tabMain(QWidget):
         self.status.setText(self.i.state["Name"])
 
     def fn_reset(self):
-        functions.run_script(self.i,'reboot')
+        functions.run_script('reboot')
 
 
     def fn_set_type(self):
