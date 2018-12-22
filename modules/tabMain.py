@@ -209,8 +209,9 @@ class tabMain(QWidget):
             "http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":8000")
 
     def launch_ssh(self):
+        settings = sm.settingsManager()
         ip =  self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"]
         if platform.system() == 'Windows':
-            subprocess.Popen( [functions.resource_path(os.path.join('files','putty.exe')), 'userbda@' + ip] )
+            subprocess.Popen( [functions.resource_path(os.path.join('files','putty.exe')), settings.getParam("user") +'@' + ip] )
         else:
-            os.system( 'konsole -e ssh userbda@' + ip + ' &')
+            os.system( 'konsole -e ssh ' + settings.getParam("user") + '@' + ip + ' &')

@@ -27,7 +27,7 @@ class tabSetup(QWidget):
         ec2 = QPushButton('Select EC2')
         ec2.clicked.connect(self.fn_set_ec2)
 
-        useradd = QPushButton("Create User on EC2")
+        useradd = QPushButton("Create and Set User on EC2")
         useradd.clicked.connect(self.fn_useradd)
 
         pwd = QPushButton('Set Password for user')
