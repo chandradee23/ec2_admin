@@ -55,21 +55,21 @@ class IdsForm(QDialog):
         self.settings.setParam('aws_secret_access_key', self.api_secret.text())
         self.settings.setParam('region', self.region.text())
         self.settings.writeParams()
-        try:
-            os.mkdir(home+'/.aws',mode=0o700)
-        except:
-            pass
-        with open(home+'/.aws/config','w+') as f:
-            f.write('[default]\n')
-            f.write('region = '+self.region.text()+'\n')
-            f.write('output = json\n')
-        os.chmod(home+'/.aws/config',0o600)
+        #try:
+        #    os.mkdir(home+'/.aws',mode=0o700)
+        #except:
+        #    pass
+        #with open(home+'/.aws/config','w+') as f:
+        #    f.write('[default]\n')
+        #    f.write('region = '+self.region.text()+'\n')
+        #    f.write('output = json\n')
+        #os.chmod(home+'/.aws/config',0o600)
 
-        with open(home+'/.aws/credentials','w+') as f:
-            f.write('[default]\n')
-            f.write('aws_access_key_id = '+self.api_access.text()+'\n')
-            f.write('aws_secret_access_key = ' + self.api_secret.text() + '\n')
-        os.chmod(home+'/.aws/credentials',0o600)
+        #with open(home+'/.aws/credentials','w+') as f:
+        #    f.write('[default]\n')
+        #    f.write('aws_access_key_id = '+self.api_access.text()+'\n')
+        #    f.write('aws_secret_access_key = ' + self.api_secret.text() + '\n')
+        #os.chmod(home+'/.aws/credentials',0o600)
 
         self.close()
 
