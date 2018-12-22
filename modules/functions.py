@@ -55,6 +55,8 @@ def run_script(script):
 
         print("Ejecutando")
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(script)
+        print(ssh_stdout.readlines())
+        print(ssh_stderr.readlines())
         msgBox = QMessageBox()
         msgBox.setText("Executed Correctly")
     else:
