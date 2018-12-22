@@ -22,7 +22,7 @@ class mainWindow(QMainWindow):
         super(mainWindow,self).__init__(parent)
 
         self.setMinimumWidth(500)
-        self.setWindowTitle("Entel WorkSpace")
+        self.setWindowTitle("EC2 Admin")
         self.setWindowIcon(QIcon(resource_path(os.path.join('files','ec2.png') )))
 
         self.setCentralWidget(mainWidget(self))
