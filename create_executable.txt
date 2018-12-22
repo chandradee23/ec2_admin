@@ -1,7 +1,0 @@
-Linux:
-pyi-makespec  --windowed --icon=ec2.ico --onefile --additional-hooks-dir=. --add-data "img/ec2.png:img" ec2_admin.py
-Windows:
-pyi-makespec  --windowed --icon=ec2.ico --onefile --additional-hooks-dir=. --add-data "img\ec2.png;img" ec2_admin.py
-
-Compilar
-pyinstaller ec2_admin.spec

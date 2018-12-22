@@ -1,0 +1,5 @@
+pyi-makespec --icon=ec2.ico --additional-hooks-dir=. --add-data "files/*;files" ec2.py
+
+pyi-makespec  --windowed --icon=ec2.ico --onefile --additional-hooks-dir=. --add-data "files/*;files" ec2.py
+pyinstaller ec2.spec
+
