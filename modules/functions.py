@@ -23,14 +23,15 @@ def resource_path(relative_path):
 def setNxXML(ip):
     settings = SettingsManager.settingsManager()
     user = settings.getParam("user")
+    home = expanduser("~")
 
     with open(resource_path(os.path.join('files', 'sessions')),'r') as nx:
         nxs = nx.readlines()
 
     nxs = [re.sub('@ip@',ip,x) for x in nxs ]
     nxs = [re.sub('@user@', user, x) for x in nxs]
+    nxs = [re.sub('@export@', home, x) for x in nxs]
 
-    home = expanduser("~")
     nx_path = os.path.join(home,'.sessions')
 
     with open(nx_path,'w+') as nx:

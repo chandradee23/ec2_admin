@@ -183,7 +183,7 @@ class tabMain(QWidget):
     def launch_nx(self):
         file = functions.setNxXML(self.ip.text())
         params =  [
-            '--session-conf={}'.format(file),
+          '--session-conf={}'.format(file),
           '--sessionid=20181207145907927',
           '--no-menu',
           '--no-session-edit',
