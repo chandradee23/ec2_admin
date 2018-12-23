@@ -31,7 +31,7 @@ def setNxXML(ip):
     nxs = [re.sub('@user@', user, x) for x in nxs]
 
     home = expanduser("~")
-    nx_path = home + '/.sessions'
+    nx_path = os.path.join(home,'.sessions')
 
     with open(nx_path,'w+') as nx:
         nx.writelines(nxs)

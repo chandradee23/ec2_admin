@@ -56,6 +56,7 @@ class appsForm(QDialog):
         command = "choco install " + checked + " -y"
         print(command)
         fn.sudo(command)
+        self.close()
 
 
 if __name__ == '__main__':

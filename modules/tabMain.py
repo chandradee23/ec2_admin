@@ -182,22 +182,19 @@ class tabMain(QWidget):
 
     def launch_nx(self):
         file = functions.setNxXML(self.ip.text())
+        params =  [
+            '--session-conf={}'.format(file),
+          '--sessionid=20181207145907927',
+          '--no-menu',
+          '--no-session-edit',
+          '--tray-icon',
+          '--clipboard=both',
+          '--dpi=96',
+          '--add-to-known-hosts']
         if platform.system() == 'Windows':
-            exec = 'C:\Program Files (x86)\\x2go\\x2goclient.exe'
+            subprocess.Popen(["C:\\Program Files (x86)\\x2goclient\\x2goclient.exe"]+params + ["--disable-pulse"])
         else:
-            exec = "x2goclient"
-        line = exec +\
-                  ' --session-conf={} ' +\
-                  ' --sessionid=20181130115314493 '+\
-                  ' --no-menu '+\
-                  ' --no-session-edit '+\
-                  ' --tray-icon '+\
-                  ' --clipboard=both '+\
-                  ' --dpi=96 '+\
-                  ' --add-to-known-hosts &'
-        line = line.format(file)
-        print(line)
-        os.system(line)
+            subprocess.Popen(["x2goclient"] + params)
         pass
 
     def launch_rstudio(self):

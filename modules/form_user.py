@@ -17,7 +17,7 @@ class userForm(QDialog):
         self.settings = sm.settingsManager()
         self.parent = parent
         self.setMinimumWidth(400)
-        self.setWindowTitle("Team Setup")
+        self.setWindowTitle("User Setup")
 
         self.mainLayout = QVBoxLayout()
 
@@ -32,10 +32,11 @@ class userForm(QDialog):
         self.setLayout(self.mainLayout)
 
     def fn_save(self):
-        cmd = 'useradd {} -m -G wheel'.format(self.user.text())
         settings = SettingsManager.settingsManager()
         settings.setParam("user",self.user.text())
         settings.writeParams()
+
+        cmd = 'useradd {} -m -G wheel'.format(self.user.text())
         print(cmd)
         functions.run_script(cmd)
         self.close()
