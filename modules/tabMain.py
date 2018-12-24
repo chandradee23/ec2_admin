@@ -76,21 +76,24 @@ class tabMain(QWidget):
         self.hbox_serv = QHBoxLayout()
         self.hbox_serv.addWidget(QLabel("Launch Services:"))
 
-        self.nomachine = QPushButton("x2go")
+        self.nomachine = QPushButton("x2go Remote Desktop")
         self.rstudio = QPushButton("RStudio")
         self.jupyter = QPushButton("Jupyter")
         self.ssh = QPushButton("SSH")
+        self.sftp = QPushButton("Secure File Transfer")
 
         self.hbox_url = QGridLayout()
         self.hbox_url.addWidget(self.nomachine,0,0)
         self.hbox_url.addWidget(self.rstudio,0,1)
         self.hbox_url.addWidget(self.jupyter,1,0)
         self.hbox_url.addWidget(self.ssh, 1, 1)
+        self.hbox_url.addWidget(self.sftp, 2, 0)
 
         self.nomachine.clicked.connect(self.launch_nx)
         self.rstudio.clicked.connect(self.launch_rstudio)
         self.jupyter.clicked.connect(self.launch_jupyter)
         self.ssh.clicked.connect(self.launch_ssh)
+        self.sftp.clicked.connect(self.launch_sftp)
 
         self.refresh = QPushButton("Refresh")
         self.refresh.clicked.connect(self.fn_status)
@@ -212,3 +215,10 @@ class tabMain(QWidget):
             subprocess.Popen( [functions.resource_path(os.path.join('files','putty.exe')), settings.getParam("user") +'@' + ip] )
         else:
             os.system( 'konsole -e ssh ' + settings.getParam("user") + '@' + ip + ' &')
+
+    def launch_sftp(self):
+        ip =  self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"]
+        if platform.system() == 'Windows':
+            subprocess.Popen( ["winscp", 'userbda@' + ip] )
+        else:
+            os.system( 'dolphin sftp://userbda@' + ip + ' &')
