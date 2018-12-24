@@ -54,8 +54,9 @@ class tabSetup(QWidget):
 
 
     def fn_apps(self):
-        win = appsForm(self)
-        win.exec()
+        #win = appsForm(self)
+        #win.exec()
+        fn.sudo("choco install x2go -y")
 
     def fn_saveid(self):
         win = IdsForm(self)

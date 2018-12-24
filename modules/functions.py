@@ -30,7 +30,7 @@ def setNxXML(ip):
 
     nxs = [re.sub('@ip@',ip,x) for x in nxs ]
     nxs = [re.sub('@user@', user, x) for x in nxs]
-    nxs = [re.sub('@export@', home, x) for x in nxs]
+    #nxs = [re.sub('@export@', home, x) for x in nxs]
 
     nx_path = os.path.join(home,'.sessions')
 
