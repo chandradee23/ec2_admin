@@ -50,7 +50,7 @@ class tabSetup(QWidget):
         msgBox = QMessageBox()
         msgBox.setText("Application will be closed, please Re-Oopen")
         msgBox.exec_()
-        exit()
+        quit()
 
 
     def fn_apps(self):
@@ -60,7 +60,7 @@ class tabSetup(QWidget):
         msgBox = QMessageBox()
         msgBox.setText("Application will be closed, please Re-Oopen")
         msgBox.exec_()
-        exit()
+        quit()
 
     def fn_saveid(self):
         win = IdsForm(self)
