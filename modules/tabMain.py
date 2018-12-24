@@ -108,11 +108,11 @@ class tabMain(QWidget):
         self.vbox.addLayout(self.hbox_url)
 
         self.setLayout(self.vbox)
-        self.getKeys()
+        #self.getKeys()
         self.fn_status()
 
 
-    def getKeys(self):
+    def fn_status(self):
         settings = sm.settingsManager()
         self.id_ec2 = settings.getParam('ec2_id')
         self.session = settings.getSession()
@@ -121,11 +121,9 @@ class tabMain(QWidget):
         try:
             self.ec2 = self.session.resource("ec2",use_ssl=False)
             self.i = self.ec2.Instance(id=self.id_ec2)
-            self.fn_status()
         except:
             print("please setup api keys")
 
-    def fn_status(self):
         try:
             self.i.reload()
             state = self.i.state["Name"]
@@ -217,8 +215,9 @@ class tabMain(QWidget):
             os.system( 'konsole -e ssh ' + settings.getParam("user") + '@' + ip + ' &')
 
     def launch_sftp(self):
+        settings = sm.settingsManager()
         ip =  self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"]
         if platform.system() == 'Windows':
-            subprocess.Popen( ["winscp", 'userbda@' + ip] )
+            subprocess.Popen( ["winscp", settings.getParam("user") + '@' + ip] )
         else:
-            os.system( 'dolphin sftp://userbda@' + ip + ' &')
+            os.system( "dolphin sftp://" + settings.getParam("user") + "@" + ip + ' &')
