@@ -22,7 +22,7 @@ class idEc2Form(QDialog):
 
         try:
             con = self.settings.getSession()
-            ec2 = con.resource("ec2", use_ssl = False)
+            ec2 = con.resource("ec2")
             instances = list(ec2.instances.all())
         except:
             pass

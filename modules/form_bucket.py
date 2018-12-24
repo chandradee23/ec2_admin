@@ -29,7 +29,7 @@ class BucketForm(QDialog):
         self.mainLayout = QVBoxLayout()
 
         self.session = self.settings.getSession()
-        s3 = self.session.resource("s3",use_ssl=False)
+        s3 = self.session.resource("s3")
         self.buckets = {x.name: x for x in list(s3.buckets.all())}
 
         self.combo_bucket = QComboBox()

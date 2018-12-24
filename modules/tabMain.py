@@ -119,7 +119,7 @@ class tabMain(QWidget):
 
 
         try:
-            self.ec2 = self.session.resource("ec2",use_ssl=False)
+            self.ec2 = self.session.resource("ec2")
             self.i = self.ec2.Instance(id=self.id_ec2)
         except:
             print("please setup api keys")
