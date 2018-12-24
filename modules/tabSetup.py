@@ -57,6 +57,10 @@ class tabSetup(QWidget):
         #win = appsForm(self)
         #win.exec()
         fn.sudo("choco install x2go winscp -y")
+        msgBox = QMessageBox()
+        msgBox.setText("Application will be closed, please Re-Oopen")
+        msgBox.exec_()
+        exit()
 
     def fn_saveid(self):
         win = IdsForm(self)
