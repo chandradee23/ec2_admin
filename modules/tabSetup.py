@@ -48,8 +48,9 @@ class tabSetup(QWidget):
     def fn_choco(self):
         fn.sudo("\"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\"")
         msgBox = QMessageBox()
-        msgBox.setText("You need to close and re open this application to install apps")
+        msgBox.setText("Application will be closed, please Re-Oopen")
         msgBox.exec_()
+        exit()
 
 
     def fn_apps(self):
@@ -57,9 +58,9 @@ class tabSetup(QWidget):
         #win.exec()
         fn.sudo("choco install x2go winscp -y")
         msgBox = QMessageBox()
-        msgBox.setText("In order to SFTP to work, please open and close this application")
+        msgBox.setText("Application will be closed, please Re-Oopen")
         msgBox.exec_()
-
+        exit()
 
     def fn_saveid(self):
         win = IdsForm(self)
