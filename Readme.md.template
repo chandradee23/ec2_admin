@@ -38,4 +38,11 @@ Most features will work the best on Windows and KDE
 
 ## Instructions
 
-After creating you EC2 from the [@ami@](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=@ami@), follow the buttons of the Setup Tab from top to bottom.
+* Download que [Ec2.exe](https://s3.us-east-2.amazonaws.com/danielfm123-public/ec2.exe)
+* After creating you EC2 from the [@ami@](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=@ami@), follow the buttons of the Setup Tab from top to bottom.
+
+## Build Instrucions
+
+* install paramiko, boto3, pandas, pyside2 and pyinstaller via pip
+* pyi-makespec  --windowed --icon=ec2.ico --onefile --additional-hooks-dir=. --add-data "files/*;files" ec2.py
+* pyinstaller ec2.spec
