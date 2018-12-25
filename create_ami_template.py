@@ -1,7 +1,9 @@
 import boto3
+import re
 
 template_id = "i-0451fb4d63df2a99a"
 ami_name = "danielfm123 clowd datascience"
+readmte_template = 'Readme.md.template'
 
 session = boto3.Session(profile_name = "danielfm123")
 ec2 = session.resource("ec2")
@@ -23,6 +25,14 @@ ami.create_tags(Tags = [{'Key':'template_id', 'Value': template_id}])
 ami.modify_attribute(LaunchPermission ={'Add' : [{'Group':'all'}]})
 
 url = 'https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=' + ami.id
+
+with open(readmte_template,'r') as t:
+    readme = t.readlines()
+
+readme = [re.sub('@ami@',ami.id,x) for x in readme]
+
+with open('Readme.md','w+') as r:
+    r.writelines(readme)
 
 
 
