@@ -24,8 +24,6 @@ ami = template.create_image(Name = 'danielfm123 clowd datascience',)
 ami.create_tags(Tags = [{'Key':'template_id', 'Value': template_id}])
 ami.modify_attribute(LaunchPermission ={'Add' : [{'Group':'all'}]})
 
-url = 'https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=' + ami.id
-
 with open(readmte_template,'r') as t:
     readme = t.readlines()
 
