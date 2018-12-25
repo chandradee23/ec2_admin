@@ -54,7 +54,7 @@ class idEc2Form(QDialog):
         print(self.combo_ec2.currentData())
         self.settings.setParam('ec2_id',id)
         self.settings.writeParams()
-        self.parent.parent.getKeys()
+        self.parent.parent.refresh()
 
         self.close()
 

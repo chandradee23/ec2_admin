@@ -65,7 +65,7 @@ class tabSetup(QWidget):
     def fn_saveid(self):
         win = IdsForm(self)
         win.exec()
-        self.parent.getKeys()
+        self.parent.refresh()
 
     def fn_add_bucket(self):
         win = BucketForm(self)

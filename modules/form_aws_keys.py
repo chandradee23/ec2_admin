@@ -71,7 +71,6 @@ class IdsForm(QDialog):
         #    f.write('aws_access_key_id = '+self.api_access.text()+'\n')
         #    f.write('aws_secret_access_key = ' + self.api_secret.text() + '\n')
         #os.chmod(home+'/.aws/credentials',0o600)
-
         self.close()
 
     def fn_pem(self):

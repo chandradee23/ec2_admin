@@ -44,8 +44,8 @@ class mainWidget(QWidget):
         self.setLayout(layout)
         self.show()
 
-    def getKeys(self):
-        self.main_tab.getKeys()
+    def refresh(self):
+        self.main_tab.fn_status()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
