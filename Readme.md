@@ -26,7 +26,7 @@ The AMI is based on [Arch](https://www.uplinklabs.net/projects/arch-linux-on-ec2
 * configured to be passwordless
 
 The following video will show the application and configuration:
-ToDo
+[Video in spanish](https://www.youtube.com/watch?v=pKcPXcqD6is)
 
 ## AMI Description
 
