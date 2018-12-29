@@ -3,5 +3,6 @@ hiddenimports = [
     "functions",
     "configparser",
     "sys",
-    "backports"
+    "backports",
+    'shutil'
 ]

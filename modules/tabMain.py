@@ -6,6 +6,7 @@ from modules import SettingsManager as sm, functions
 import os
 import subprocess
 import platform
+import shutil
 
 
 class tabMain(QWidget):
@@ -212,7 +213,11 @@ class tabMain(QWidget):
         if platform.system() == 'Windows':
             subprocess.Popen( [functions.resource_path(os.path.join('files','putty.exe')), settings.getParam("user") +'@' + ip] )
         else:
-            os.system( 'konsole -e ssh ' + settings.getParam("user") + '@' + ip + ' &')
+            cmd = ' ssh ' + settings.getParam("user") + '@' + ip + ' $'
+            if shutil.which('konsole') != None:
+                os.system('konsole -e ' + cmd)
+            elif shutil.which('xfce4-terminal') != None:
+                os.system('xfce4-terminal -x ' + cmd)
 
     def launch_sftp(self):
         settings = sm.settingsManager()
@@ -220,4 +225,8 @@ class tabMain(QWidget):
         if platform.system() == 'Windows':
             subprocess.Popen( ["winscp", settings.getParam("user") + '@' + ip] )
         else:
-            os.system( "dolphin sftp://" + settings.getParam("user") + "@" + ip + ' &')
+            url = " sftp://" + settings.getParam("user") + "@" + ip
+            handlers = [shutil.which('dolphin')]
+            handlers = handlers[handlers != None]
+            if len(handlers) > 0:
+                os.system(handlers[0] + url + ' &')
