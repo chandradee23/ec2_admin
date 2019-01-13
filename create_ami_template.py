@@ -1,5 +1,6 @@
 import boto3
 import re
+import time
 
 template_id = "i-0451fb4d63df2a99a"
 ami_name = "danielfm123 clowd datascience"
@@ -22,6 +23,9 @@ for s in snapshots_id:
 
 ami = template.create_image(Name = 'danielfm123 clowd datascience',)
 ami.create_tags(Tags = [{'Key':'template_id', 'Value': template_id}])
+while ami.state != 'available':
+    time.sleep(2)
+    ami.reload()
 ami.modify_attribute(LaunchPermission ={'Add' : [{'Group':'all'}]})
 
 with open(readmte_template,'r') as t:

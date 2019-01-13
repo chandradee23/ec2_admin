@@ -1,6 +1,6 @@
 # Description
 
-This is an application intended to be used with public AMI: [ami-0bc875f9c35daaa25](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=ami-0bc875f9c35daaa25), but most features will work with any EC2 AMI.
+This is an application intended to be used with public AMI: [ami-09632459eb5940a1b](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=ami-09632459eb5940a1b), but most features will work with any EC2 AMI.
 
 The application will allow:
 * Setup AWS Api Keys and SSH PEM
@@ -27,7 +27,7 @@ The AMI is based on [Arch](https://www.uplinklabs.net/projects/arch-linux-on-ec2
 
 The following video will show the application and configuration:
 * [Youtube in Spanish](https://youtu.be/y-buVIKk3ME)
-* [English ToDo]()
+* [English ToDo]
 
 ## AMI Description
 
@@ -40,7 +40,7 @@ Most features will work the best on Windows and KDE
 ## Instructions
 
 * Download que [Ec2.exe](https://s3.us-east-2.amazonaws.com/danielfm123-public/ec2.exe)
-* After creating you EC2 from the [ami-0bc875f9c35daaa25](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=ami-0bc875f9c35daaa25), follow the buttons of the Setup Tab from top to bottom.
+* After creating you EC2 from the [ami-09632459eb5940a1b](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=ami-09632459eb5940a1b), follow the buttons of the Setup Tab from top to bottom.
 
 ## Build Instrucions
 
