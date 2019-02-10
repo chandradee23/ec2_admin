@@ -41,9 +41,7 @@ def setNxXML(ip):
 
 def run_script(script):
     settings = SettingsManager.settingsManager()
-    session = settings.getSession()
-    ec2 = session.resource("ec2")
-    instance = ec2.Instance(id = settings.getParam("ec2_id"))
+    instance = settings.getInstance()
     if instance.state["Name"] == "running":
 
         print("Conectando")

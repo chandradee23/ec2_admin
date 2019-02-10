@@ -8,6 +8,7 @@ import subprocess
 import platform
 import shutil
 
+settings = sm.settingsManager()
 
 class tabMain(QWidget):
 
@@ -114,14 +115,11 @@ class tabMain(QWidget):
 
 
     def fn_status(self):
-        settings = sm.settingsManager()
         self.id_ec2 = settings.getParam('ec2_id')
         self.session = settings.getSession()
 
-
         try:
-            self.ec2 = self.session.resource("ec2")
-            self.i = self.ec2.Instance(id=self.id_ec2)
+            self.i = settings.getInstance()
         except:
             print("please setup api keys")
 
@@ -151,7 +149,7 @@ class tabMain(QWidget):
         except:
             self.name.setText("Invalid ID")
         try:
-            self.ip.setText(self.i.network_interfaces_attribute[0]["Association"]["PublicIp"])
+            self.ip.setText(settings.getIP())
             self.dns.setText(self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"])
         except:
             self.ip.setText("")
@@ -183,7 +181,7 @@ class tabMain(QWidget):
         self.fn_status()
 
     def launch_nx(self):
-        file = functions.setNxXML(self.ip.text())
+        file = functions.setNxXML(settings.getIP())
         params =  [
           '--session-conf={}'.format(file),
           '--sessionid=20181207145907927',
@@ -201,32 +199,36 @@ class tabMain(QWidget):
 
     def launch_rstudio(self):
         QDesktopServices.openUrl(
-            "http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":8787")
+            "http://" + settings.getIP() + ":8787")
 
     def launch_jupyter(self):
         QDesktopServices.openUrl(
-            "http://" + self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"] + ":8000")
+            "http://" + settings.getIP() + ":8000")
 
     def launch_ssh(self):
-        settings = sm.settingsManager()
-        ip =  self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"]
+        ip =  settings.getIP()
+        user = settings.getParam("user")
+
         if platform.system() == 'Windows':
-            subprocess.Popen( [functions.resource_path(os.path.join('files','putty.exe')), settings.getParam("user") +'@' + ip] )
+            subprocess.Popen( [functions.resource_path(os.path.join('files','putty.exe')), user +'@' + ip] )
         else:
-            cmd = ' ssh ' + settings.getParam("user") + '@' + ip + ' $'
+            cmd = ' ssh ' + user + '@' + ip + ' &'
+            print(cmd)
             if shutil.which('konsole') != None:
                 os.system('konsole -e ' + cmd)
             elif shutil.which('xfce4-terminal') != None:
                 os.system('xfce4-terminal -x ' + cmd)
+            elif shutil.which('gnome-terminal') != None:
+                os.system('gnome-terminal ' + cmd)
+            elif shutil.which('xterm') != None:
+                os.system('xterm -e ' + cmd)
 
     def launch_sftp(self):
-        settings = sm.settingsManager()
-        ip =  self.i.network_interfaces_attribute[0]["Association"]["PublicDnsName"]
+        ip =  settings.getIP()
+        user = settings.getParam("user")
+
         if platform.system() == 'Windows':
-            subprocess.Popen( ["winscp", settings.getParam("user") + '@' + ip] )
+            subprocess.Popen( ["winscp", user + '@' + ip] )
         else:
             url = " sftp://" + settings.getParam("user") + "@" + ip
-            handlers = [shutil.which('dolphin')]
-            handlers = handlers[handlers != None]
-            if len(handlers) > 0:
-                os.system(handlers[0] + url + ' &')
+            os.system( 'dolphin ' + url + ' &')
