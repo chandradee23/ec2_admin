@@ -11,17 +11,17 @@ from modules import SettingsManager as sm, functions as fn
 import os
 
 home = os.path.expanduser("~")
+settings = sm.settingsManager()
 
 class idEc2Form(QDialog):
     def __init__(self,parent):
         super(idEc2Form,self).__init__(parent)
-        self.settings = sm.settingsManager()
         self.parent = parent
         self.setMinimumWidth(400)
         self.setWindowTitle("AWS API Manager")
 
         try:
-            con = self.settings.getSession()
+            con = settings.getSession()
             ec2 = con.resource("ec2")
             instances = list(ec2.instances.all())
         except:
@@ -52,8 +52,8 @@ class idEc2Form(QDialog):
     def save_to_file(self):
         id = self.combo_ec2.currentData()
         print(self.combo_ec2.currentData())
-        self.settings.setParam('ec2_id',id)
-        self.settings.writeParams()
+        settings.setParam('ec2_id',id)
+        settings.writeParams()
         self.parent.parent.refresh()
 
         self.close()

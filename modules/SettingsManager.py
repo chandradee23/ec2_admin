@@ -51,7 +51,11 @@ class settingsManager():
 
     def getSession(self):
         try:
-            session = boto3.Session()
+            session = boto3.Session(
+                aws_access_key_id=self.getParam("aws_access_key_id"),
+                aws_secret_access_key=self.getParam("aws_secret_access_key"),
+                region_name=self.getParam("region")
+            )
             return session
         except:
             print('cant connect aws')
@@ -59,11 +63,7 @@ class settingsManager():
 
     def getInstance(self):
         try:
-            session = boto3.Session(
-                aws_access_key_id=self.getParam("aws_access_key_id"),
-                aws_secret_access_key=self.getParam("aws_secret_access_key"),
-                region_name=self.getParam("region")
-            )
+            session = self.getSession()
             ec2 = session.resource("ec2",use_ssl=False)
             ec2_id = self.getParam('ec2_id')
             self.instance = ec2.Instance(id=ec2_id)
